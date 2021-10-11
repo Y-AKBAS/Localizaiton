@@ -1,0 +1,3 @@
+C:/Users/int005137/VS Code Workspace/Boost_collate/build/CMakeFiles/collate.dir
+C:/Users/int005137/VS Code Workspace/Boost_collate/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/int005137/VS Code Workspace/Boost_collate/build/CMakeFiles/ZERO_CHECK.dir

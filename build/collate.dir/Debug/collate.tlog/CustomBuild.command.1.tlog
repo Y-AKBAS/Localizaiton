@@ -1,0 +1,10 @@
+^C:\USERS\INT005137\VS CODE WORKSPACE\BOOST_COLLATE\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/int005137/VS Code Workspace/Boost_collate" "-BC:/Users/int005137/VS Code Workspace/Boost_collate/build" --check-stamp-file "C:/Users/int005137/VS Code Workspace/Boost_collate/build/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
