@@ -1,5 +1,7 @@
 #include "collate_example.h"
 
+Timer timer; // to see the elapsed time
+
 boost::locale::generator gen;
 std::locale loc = gen.generate("fr_FR.UTF-8");
 boost::locale::comparator<wchar_t> myComparator(loc, boost::locale::collator_base::secondary);
@@ -33,14 +35,16 @@ void display_list(const std::list<std::wstring> &l)
 
 void collate_example_boost_ms()
 {
-    Timer timer;
     timer.start();
 
     boost::locale::generator gen;
     std::locale loc = gen.generate("fr_FR.UTF-8");
     boost::locale::comparator<wchar_t> myComparator(loc, boost::locale::collator_base::secondary);
-    std::wcout << L"Result" << myComparator.operator()(L"ali", L"bli") << std::endl;
-    std::wcout << L"Result" << myComparator.operator()(L"bli", L"ali") << std::endl;
+    std::wcout << L"Result " << myComparator.operator()(L"ali", L"bli") << std::endl;
+    std::wcout << L"Result " << myComparator.operator()(L"bli", L"ali") << std::endl;
+    std::wcout << L"Result " << myComparator.operator()(L"äli", L"ali") << std::endl;
+    std::wcout << L"Result " << myComparator.operator()(L"üli", L"uli") << std::endl;
+    std::wcout << L"Result " << myComparator.operator()(L"öli", L"oli") << std::endl;
 
     typedef std::multiset<std::wstring, boost::locale::comparator<wchar_t>> multiset_type;
     multiset_type names_multiset(myComparator);
@@ -73,18 +77,19 @@ void collate_example_boost_ms()
     names_multiset.insert(L"FèliçiTa");
     names_multiset.insert(L"faliçita");
 
-    std::cout << "Size of the names multiset: " << names_multiset.size() << std::endl;
-    std::cout << std::endl;
-
     display_ms(names_multiset);
     timer.stop();
-    std::cout << "\nElapsed time at multiset: " << std::fixed << timer << std::endl;
+    std::cout << "\nElapsed time at multiset: " << std::fixed << timer << std::endl
+              << std::endl;
 }
 
 void collate_example_boost_vec()
 {
-    Timer timer;
     timer.start();
+
+    boost::locale::generator gen;
+    std::locale loc = gen.generate("fr_FR.UTF-8");
+    boost::locale::comparator<wchar_t> myComparator(loc, boost::locale::collator_base::secondary);
 
     std::vector<std::wstring> names_vector;
 
@@ -98,12 +103,13 @@ void collate_example_boost_vec()
     names_vector.push_back(L"FèliçiTa");
     names_vector.push_back(L"faliçita");
 
-    sort(names_vector.begin(), names_vector.end());
+    sort(names_vector.begin(), names_vector.end(), myComparator);
 
     display_vec(names_vector);
 
     timer.stop();
-    std::cout << "\nElapsed time at vector: " << std::fixed << timer << std::endl;
+    std::cout << "\nElapsed time at vector: " << std::fixed << timer << std::endl
+              << std::endl;
 }
 
 void collate_example_boost_list()
@@ -111,11 +117,17 @@ void collate_example_boost_list()
     Timer timer;
     timer.start();
 
+    boost::locale::generator gen;
+    std::locale loc = gen.generate("fr_FR.UTF-8");
+    boost::locale::comparator<wchar_t> myComparator(loc, boost::locale::collator_base::secondary);
+
     std::list<std::wstring> names_list;
 
     names_list.push_back(L"zébra");
     names_list.push_back(L"Feliçita");
     names_list.push_back(L"feliçita");
+    names_list.push_back(L"hotel");
+    names_list.push_back(L"HoteL");
     names_list.push_back(L"hôtel");
     names_list.push_back(L"Hôtel");
     names_list.push_back(L"FèliçiTa");
@@ -123,11 +135,11 @@ void collate_example_boost_list()
     names_list.push_back(L"FèliçiTa");
     names_list.push_back(L"faliçita");
 
-    // sort(names_list.begin(), names_list.end(), [](std::wstring l, std::wstring r)
-    //      { return myComparator(l, r); });
-
+    // sort(names_list.begin(), names_list.end(), myComparator);
+    names_list.sort(myComparator);
     display_list(names_list);
 
     timer.stop();
-    std::cout << "\nElapsed time at list: " << std::fixed << timer << std::endl;
+    std::cout << "\nElapsed time at list: " << std::fixed << timer << std::endl
+              << std::endl;
 }

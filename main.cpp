@@ -29,9 +29,8 @@ int main()
               << std::endl;
 
     collate_example_boost_ms();
-    
-    //  collate_example_boost_vec();
-    //  collate_example_boost_list();
+    collate_example_boost_vec();
+    collate_example_boost_list();
 
     return 0;
 }
